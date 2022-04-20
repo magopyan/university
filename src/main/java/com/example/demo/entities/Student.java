@@ -16,7 +16,7 @@ import java.util.Objects;
  * @author Miki
  */
 @Entity(name = "Student")
-@Table(name = "student"/*, schema = "uni_schema"*/)
+@Table(name = "student")
 public class Student implements Serializable {
 
     ////////

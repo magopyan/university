@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
  * @author Miki
  */
 @Entity(name = "Group")
-@Table(name = "grupa"/*, schema = "uni_schema"*/)
+@Table(name = "grupa")
 public class Group implements Serializable {
 
     ////////
@@ -60,7 +60,7 @@ public class Group implements Serializable {
     //@Column(name = "students")
     @OneToMany(
             mappedBy = "group",
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )

@@ -14,6 +14,5 @@ import org.springframework.stereotype.Repository;
  * @author Miki
  */
 @Repository
-public interface GroupRepository extends JpaRepository<Group, Long>{
-    
+public interface GroupRepository extends JpaRepository<Group, Long> {
 }
