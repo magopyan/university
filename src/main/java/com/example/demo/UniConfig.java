@@ -99,34 +99,29 @@ public class UniConfig implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new StartPage().setVisible(true);
-			}
-		});
 
-		University university = new University("TU-Varna");
-			universityRepository.save(university);
-
-			Teacher teacher1 = new Teacher("Ivelin", "Dimitrov", university);
-			Teacher teacher2 = new Teacher("Milena", "Vasileva", university);
-			teacherRepository.save(teacher1);
-			teacherRepository.save(teacher2);
-
-			Group group1 = new Group("Group 1", teacher1, university);
-			Group group2 = new Group("Group 2", teacher2, university);
-			Group group3 = new Group("Group 3", teacher2, university);
-			groupRepository.save(group1);
-			groupRepository.save(group2);
-			groupRepository.save(group3);
-
-			Student student1 = new Student("Mihael", "Agopyan", 5.25, group1, university);
-			Student student2 = new Student("Ivan", "Ivanov", 4.63, group1, university);
-			Student student3 = new Student("Anna", "Yaneva", 4.14, group2, university);
-			Student student4 = new Student("Simeon", "Velkov", 3.18, group3, university);
-			studentRepository.save(student1);
-			studentRepository.save(student2);
-			studentRepository.save(student3);
-			studentRepository.save(student4);
+//		University university = new University("TU-Varna");
+//		universityRepository.save(university);
+//
+//		Teacher teacher1 = new Teacher("Ivelin", "Dimitrov", university);
+//		Teacher teacher2 = new Teacher("Milena", "Vasileva", university);
+//		teacherRepository.save(teacher1);
+//		teacherRepository.save(teacher2);
+//
+//		Group group1 = new Group("Group 1", teacher1, university);
+//		Group group2 = new Group("Group 2", teacher2, university);
+//		Group group3 = new Group("Group 3", teacher2, university);
+//		groupRepository.save(group1);
+//		groupRepository.save(group2);
+//		groupRepository.save(group3);
+//
+//		Student student1 = new Student("Mihael", "Agopyan", 5.25, group1, university);
+//		Student student2 = new Student("Ivan", "Ivanov", 4.63, group1, university);
+//		Student student3 = new Student("Anna", "Yaneva", 4.14, group2, university);
+//		Student student4 = new Student("Simeon", "Velkov", 3.18, group3, university);
+//		studentRepository.save(student1);
+//		studentRepository.save(student2);
+//		studentRepository.save(student3);
+//		studentRepository.save(student4);
 	}
 }

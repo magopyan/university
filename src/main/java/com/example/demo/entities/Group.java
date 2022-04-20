@@ -144,9 +144,17 @@ public class Group implements Serializable {
 
     ////////
     //////////////////////////////// TOSTRING, EQUALS, HASHCODE
+
+
     @Override
     public String toString() {
-        return "Group{" + "id=" + id + ", name=" + name + ", teacher=" + teacher + ", studentSet=" + studentSet + '}';
+        return "Group{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", teacher=" + teacher.getFirstName() + teacher.getLastName() +
+                ", studentSet=" + studentSet.size() + " students" +
+                ", university=" + university.getName() +
+                '}';
     }
 
     @Override

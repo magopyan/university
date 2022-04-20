@@ -139,9 +139,17 @@ public class Teacher implements Serializable {
 
     ////////
     //////////////////////////////// TOSTRING, EQUALS, HASHCODE
+
+
     @Override
     public String toString() {
-        return "Teacher{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", groupSet=" + groupSet + '}';
+        return "Teacher{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", groupSet=" + groupSet.size() + " groups" +
+                ", university=" + university.getName() +
+                '}';
     }
 
     @Override

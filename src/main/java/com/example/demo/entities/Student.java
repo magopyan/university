@@ -131,9 +131,18 @@ public class Student implements Serializable {
 
     ////////
     //////////////////////////////// TOSTRING, EQUALS, HASCODE
+
+
     @Override
     public String toString() {
-        return "Student{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", grade=" + grade + '}';
+        return "Student{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", grade=" + grade +
+                ", group=" + group.getName() +
+                ", university=" + university.getName() +
+                '}';
     }
 
     @Override

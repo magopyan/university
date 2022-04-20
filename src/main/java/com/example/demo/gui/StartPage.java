@@ -6,7 +6,12 @@
 package com.example.demo.gui;
 
 import com.example.demo.UniversityApplication;
+import com.example.demo.entities.Group;
+import com.example.demo.repositories.GroupRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+
+import java.util.Optional;
 
 /**
  *
@@ -46,7 +51,12 @@ public class StartPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
+	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+		Optional<Group> group = groupRepository.findById(1L);
+//		System.out.println(group);
+	}
+
+	/**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -82,5 +92,8 @@ public class StartPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+	@Autowired
+	private GroupRepository groupRepository;
+	private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }

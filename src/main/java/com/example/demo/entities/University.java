@@ -158,9 +158,17 @@ public class University implements Serializable {
 
     ////////
     //////////////////////////////// TOSTRING, EQUALS, HASHCODE
+
+
     @Override
     public String toString() {
-        return "University{" + "id=" + id + ", name=" + name + ", groupSet=" + groupSet + ", teacherSet=" + teacherSet + ", studentSet=" + studentSet + '}';
+        return "University{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", groupSet=" + groupSet.size() + " groups" +
+                ", teacherSet=" + teacherSet.size() + " teachers" +
+                ", studentSet=" + studentSet.size() + " students" +
+                '}';
     }
 
     @Override
