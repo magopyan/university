@@ -64,11 +64,6 @@ public class Start extends javax.swing.JFrame {
         jLabel1.setText("Welcome to TU-Varna!");
 
         jButton2.setText("Students");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
-            }
-        });
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -76,11 +71,6 @@ public class Start extends javax.swing.JFrame {
         });
 
         jButton3.setText("Teachers");
-        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton3MouseClicked(evt);
-            }
-        });
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -121,32 +111,22 @@ public class Start extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // Students
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2MouseClicked
-
-    // Teachers
-    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3MouseClicked
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         startFrame.setVisible(false);
-	GroupsView view = new GroupsView(groupRepository, startFrame);
+	GroupsView view = new GroupsView(startFrame, groupRepository);
 	view.setVisible(true);	
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        StudentsView view = new StudentsView(studentRepository);
-//	view.setVisible(true);
-//	this.setVisible(false);
+	startFrame.setVisible(false);
+	StudentsView view = new StudentsView(startFrame, studentRepository);
+	view.setVisible(true);	
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-//        TeachersView view = new TeachersView(teacherRepository);
-//	view.setVisible(true);
-//	this.setVisible(false);
+	startFrame.setVisible(false);
+	TeachersView view = new TeachersView(startFrame, teacherRepository);
+	view.setVisible(true);	
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -179,7 +159,8 @@ public class Start extends javax.swing.JFrame {
 	/* Create and display the form */
 	ConfigurableApplicationContext ctx = new SpringApplicationBuilder(Start.class)
                 .headless(false)
-		//.web(WebApplicationType.NONE)
+		.web(WebApplicationType.NONE)
+		.lazyInitialization(false)
 		.run(args);
 
         EventQueue.invokeLater(() -> {

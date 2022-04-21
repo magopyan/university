@@ -6,6 +6,7 @@
 package com.example.demo.repositories;
 
 import com.example.demo.entities.Group;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author Miki
  */
 @Repository
+@Primary
 public interface GroupRepository extends JpaRepository<Group, Long> {
     public void deleteById(Long id);
 }

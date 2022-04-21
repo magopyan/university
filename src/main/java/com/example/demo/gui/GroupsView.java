@@ -19,22 +19,23 @@ import org.springframework.stereotype.Component;
  *
  * @author Miki
  */
-@Component
 public class GroupsView extends javax.swing.JFrame {
 
     /**
      * Creates new form GroupsView
      */
-    public GroupsView(GroupRepository groupRepository, JFrame start) {
+    public GroupsView(JFrame startFrame, GroupRepository groupRepository) {
 	initComponents();
 	this.groupRepository = groupRepository;
-	this.startFrame = start;
+	this.startFrame = startFrame;
 	
 	List<Group> groupsList = groupRepository.findAll();
+//	Group id2 = groupRepository.findById(2L).get();
+//	System.out.println(id2);
 	DefaultTableModel model = (DefaultTableModel) jTable1.getModel(); 
 	for(Group group : groupsList) {
 	    model.addRow(new Object[]{group.getId(), group.getName(), 
-		(group.getTeacher().getFirstName() + " " + group.getTeacher().getLastName()), group.getUniversity().getName()});
+		(group.getTeacher().getFirstName() + " " + group.getTeacher().getLastName()), group.getUniversity().getName(), group.getStudentSet().size()});
 	}
 	jTable1.setModel(model);
     }
@@ -63,14 +64,14 @@ public class GroupsView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Teacher", "University"
+                "ID", "Name", "Teacher", "University", "Number of students"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Long.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -83,20 +84,12 @@ public class GroupsView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jLabel1.setText("Groups");
 
         jButton1.setText("Add");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
-            }
-        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -104,11 +97,6 @@ public class GroupsView extends javax.swing.JFrame {
         });
 
         jButton2.setText("Edit");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
-            }
-        });
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -116,11 +104,6 @@ public class GroupsView extends javax.swing.JFrame {
         });
 
         jButton3.setText("Delete");
-        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton3MouseClicked(evt);
-            }
-        });
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -141,9 +124,9 @@ public class GroupsView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
+                        .addGap(31, 31, 31)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(77, 77, 77)
+                        .addGap(81, 81, 81)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton1)
                             .addComponent(jButton2)
@@ -182,29 +165,27 @@ public class GroupsView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1MouseClicked
-
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2MouseClicked
-
-    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-	
-    }//GEN-LAST:event_jButton3MouseClicked
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        this.setVisible(false);
-	startFrame.setVisible(true);
+        startFrame.setVisible(true);
+	this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      
+	GroupInput view = new GroupInput(startFrame, groupRepository, null);
+	view.setVisible(true);
+	this.dispose();
+	
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        if(jTable1.getSelectionModel().isSelectionEmpty() == false) {
+	    Long id = (Long) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0);
+	    Group selectedGroup = groupRepository.findById(id).get();
+	    System.out.println(selectedGroup);
+	    GroupInput view = new GroupInput(startFrame, groupRepository, selectedGroup);
+	    view.setVisible(true);
+	    this.dispose();
+	}
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -246,7 +227,7 @@ public class GroupsView extends javax.swing.JFrame {
 	});
     }
 
-
+    @Autowired
     private GroupRepository groupRepository;
     private JFrame startFrame;
     // Variables declaration - do not modify//GEN-BEGIN:variables

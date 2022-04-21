@@ -128,6 +128,21 @@ public class Student implements Serializable {
         this.grade = grade;
     }
 
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public University getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(University university) {
+        this.university = university;
+    }
 
     ////////
     //////////////////////////////// TOSTRING, EQUALS, HASCODE
