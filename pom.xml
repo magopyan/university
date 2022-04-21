@@ -15,6 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
+                <start-class>com.example.demo.Start</start-class>
 <!--                <start-class>com.example.demo.UniversityApplication</start-class>-->
 	</properties>
 	<dependencies>
@@ -33,7 +34,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.3.18</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

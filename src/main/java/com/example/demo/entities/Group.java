@@ -141,6 +141,13 @@ public class Group implements Serializable {
         this.studentSet = studentSet;
     }
 
+    public University getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(University university) {
+        this.university = university;
+    }
 
     ////////
     //////////////////////////////// TOSTRING, EQUALS, HASHCODE

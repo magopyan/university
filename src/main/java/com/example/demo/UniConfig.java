@@ -5,26 +5,13 @@
  */
 package com.example.demo;
 
-import com.example.demo.entities.Group;
-import com.example.demo.entities.Student;
-import com.example.demo.entities.Teacher;
-import com.example.demo.entities.University;
-import com.example.demo.gui.StartPage;
 import com.example.demo.repositories.GroupRepository;
 import com.example.demo.repositories.TeacherRepository;
 import com.example.demo.repositories.UniversityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import com.example.demo.repositories.StudentRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  *

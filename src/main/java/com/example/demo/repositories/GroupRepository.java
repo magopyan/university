@@ -15,4 +15,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
+    public void deleteById(Long id);
 }

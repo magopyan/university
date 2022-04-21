@@ -15,5 +15,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UniversityRepository extends JpaRepository<University, Long>{
-    
+    public void deleteById(Long id);
 }
