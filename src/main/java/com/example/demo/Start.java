@@ -7,9 +7,14 @@ package com.example.demo;
 
 import com.example.demo.entities.Group;
 import com.example.demo.gui.GroupsView;
+import com.example.demo.gui.StudentsView;
+import com.example.demo.gui.TeachersView;
 import com.example.demo.repositories.GroupRepository;
+import com.example.demo.repositories.StudentRepository;
+import com.example.demo.repositories.TeacherRepository;
 import java.awt.EventQueue;
 import java.util.Optional;
+import javax.swing.JFrame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
@@ -50,9 +55,9 @@ public class Start extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Groups");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -64,11 +69,21 @@ public class Start extends javax.swing.JFrame {
                 jButton2MouseClicked(evt);
             }
         });
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Teachers");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton3MouseClicked(evt);
+            }
+        });
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
             }
         });
 
@@ -106,13 +121,6 @@ public class Start extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // Groups
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-
-	GroupsView view = new GroupsView(groupRepository);
-	view.setVisible(true);
-    }//GEN-LAST:event_jButton1MouseClicked
-
     // Students
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
@@ -122,6 +130,24 @@ public class Start extends javax.swing.JFrame {
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        startFrame.setVisible(false);
+	GroupsView view = new GroupsView(groupRepository, startFrame);
+	view.setVisible(true);	
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+//        StudentsView view = new StudentsView(studentRepository);
+//	view.setVisible(true);
+//	this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+//        TeachersView view = new TeachersView(teacherRepository);
+//	view.setVisible(true);
+//	this.setVisible(false);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -157,7 +183,9 @@ public class Start extends javax.swing.JFrame {
 		.run(args);
 
         EventQueue.invokeLater(() -> {
-	    ctx.getBean(Start.class).setVisible(true);
+	    startFrame = ctx.getBean(Start.class);
+	    startFrame.setVisible(true);
+	    //ctx.getBean(Start.class).setVisible(true);
         });
 //	java.awt.EventQueue.invokeLater(new Runnable() {
 //	    public void run() {
@@ -169,6 +197,12 @@ public class Start extends javax.swing.JFrame {
 
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
+    
+    private static JFrame startFrame;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

@@ -5,9 +5,11 @@
  */
 package com.example.demo.gui;
 
+import com.example.demo.Start;
 import com.example.demo.entities.Group;
 import com.example.demo.repositories.GroupRepository;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +25,16 @@ public class GroupsView extends javax.swing.JFrame {
     /**
      * Creates new form GroupsView
      */
-    public GroupsView(GroupRepository groupRepository) {
+    public GroupsView(GroupRepository groupRepository, JFrame start) {
 	initComponents();
 	this.groupRepository = groupRepository;
+	this.startFrame = start;
 	
 	List<Group> groupsList = groupRepository.findAll();
 	DefaultTableModel model = (DefaultTableModel) jTable1.getModel(); 
 	for(Group group : groupsList) {
-	    model.addRow(new Object[]{group.getId(), group.getName(), (group.getTeacher().getFirstName() + " " + group.getTeacher().getLastName())});
+	    model.addRow(new Object[]{group.getId(), group.getName(), 
+		(group.getTeacher().getFirstName() + " " + group.getTeacher().getLastName()), group.getUniversity().getName()});
 	}
 	jTable1.setModel(model);
     }
@@ -93,11 +97,21 @@ public class GroupsView extends javax.swing.JFrame {
                 jButton1MouseClicked(evt);
             }
         });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Edit");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton2MouseClicked(evt);
+            }
+        });
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -107,8 +121,18 @@ public class GroupsView extends javax.swing.JFrame {
                 jButton3MouseClicked(evt);
             }
         });
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Back");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -167,8 +191,25 @@ public class GroupsView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-	// TODO add your handling code here:
+	
     }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        this.setVisible(false);
+	startFrame.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,6 +248,7 @@ public class GroupsView extends javax.swing.JFrame {
 
 
     private GroupRepository groupRepository;
+    private JFrame startFrame;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
