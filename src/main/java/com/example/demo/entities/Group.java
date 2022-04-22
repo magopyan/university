@@ -73,6 +73,13 @@ public class Group implements Serializable {
             nullable = false
     )
     private University university;
+    
+//    @PreRemove
+//    private void removeStudentsFromGroup() {
+//    for (Student s : studentSet) {
+//        s.().remove(this);
+//    }
+
 
 
     ////////

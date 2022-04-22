@@ -7,7 +7,11 @@ package com.example.demo.gui;
 
 import com.example.demo.Start;
 import com.example.demo.entities.Group;
+import com.example.demo.entities.Student;
 import com.example.demo.repositories.GroupRepository;
+import com.example.demo.repositories.StudentRepository;
+import com.example.demo.repositories.TeacherRepository;
+import com.example.demo.repositories.UniversityRepository;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
@@ -24,14 +28,16 @@ public class GroupsView extends javax.swing.JFrame {
     /**
      * Creates new form GroupsView
      */
-    public GroupsView(JFrame startFrame, GroupRepository groupRepository) {
+    public GroupsView(JFrame startFrame, GroupRepository groupRepository, TeacherRepository teacherRepository, 
+	    StudentRepository studentRepository, UniversityRepository uniRepository) {
 	initComponents();
 	this.groupRepository = groupRepository;
+	this.teacherRepository = teacherRepository;
+	this.studentRepository = studentRepository;
+	this.uniRepository = uniRepository;
 	this.startFrame = startFrame;
 	
 	List<Group> groupsList = groupRepository.findAll();
-//	Group id2 = groupRepository.findById(2L).get();
-//	System.out.println(id2);
 	DefaultTableModel model = (DefaultTableModel) jTable1.getModel(); 
 	for(Group group : groupsList) {
 	    model.addRow(new Object[]{group.getId(), group.getName(), 
@@ -171,7 +177,7 @@ public class GroupsView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-	GroupInput view = new GroupInput(startFrame, groupRepository, null);
+	GroupInput view = new GroupInput(startFrame, groupRepository, teacherRepository, studentRepository, uniRepository, null);
 	view.setVisible(true);
 	this.dispose();
 	
@@ -181,15 +187,31 @@ public class GroupsView extends javax.swing.JFrame {
         if(jTable1.getSelectionModel().isSelectionEmpty() == false) {
 	    Long id = (Long) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0);
 	    Group selectedGroup = groupRepository.findById(id).get();
-	    System.out.println(selectedGroup);
-	    GroupInput view = new GroupInput(startFrame, groupRepository, selectedGroup);
+	    GroupInput view = new GroupInput(startFrame, groupRepository, teacherRepository, studentRepository, uniRepository, selectedGroup);
 	    view.setVisible(true);
 	    this.dispose();
 	}
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+         if(jTable1.getSelectionModel().isSelectionEmpty() == false) {
+	    Long id = (Long) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0);
+	    Group toDelete = groupRepository.findById(id).get();
+	    for(Student s : toDelete.getStudentSet()) {
+		studentRepository.deleteByIdd(s.getId());
+	    }
+	    groupRepository.deleteByIdd(id);
+	    
+	    DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+	    dtm.setRowCount(0);
+	    
+	    List<Group> groupsList = groupRepository.findAll();
+	    for(Group group : groupsList) {
+		 dtm.addRow(new Object[]{group.getId(), group.getName(), 
+		(group.getTeacher().getFirstName() + " " + group.getTeacher().getLastName()), group.getUniversity().getName(), group.getStudentSet().size()});
+	    }
+	    jTable1.setModel(dtm);
+	 }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -227,6 +249,11 @@ public class GroupsView extends javax.swing.JFrame {
 	});
     }
 
+    private UniversityRepository uniRepository;
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
     @Autowired
     private GroupRepository groupRepository;
     private JFrame startFrame;

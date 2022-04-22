@@ -10,7 +10,11 @@ import com.example.demo.entities.Group;
 import com.example.demo.entities.Teacher;
 import com.example.demo.entities.University;
 import com.example.demo.repositories.GroupRepository;
+import com.example.demo.repositories.StudentRepository;
+import com.example.demo.repositories.TeacherRepository;
+import com.example.demo.repositories.UniversityRepository;
 import javax.swing.JFrame;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,18 +24,27 @@ import org.springframework.stereotype.Component;
 public class GroupInput extends javax.swing.JFrame {
 
     /** Creates new form GroupInput */
-    public GroupInput(JFrame startFrame, GroupRepository groupRepository, Group group) {
+    public GroupInput(JFrame startFrame, GroupRepository groupRepository, TeacherRepository teacherRepository, 
+	    StudentRepository studentRepository, UniversityRepository uniRepository, Group group) {
         initComponents();
-	this.group = group;
 	this.groupRepository = groupRepository;
+	this.teacherRepository = teacherRepository;	
+	this.studentRepository = studentRepository;
+	this.uniRepository = uniRepository;
 	this.startFrame = startFrame;
-	
 	if(group != null) {
+	    this.group = group;
+	    this.chosenTeacher = group.getTeacher();
+	    
 	    jTextField1.setText(String.valueOf(group.getId()));
 	    jTextField2.setText(group.getName());
 	    jTextField3.setText(group.getTeacher().getFirstName() + " " + group.getTeacher().getLastName());
-	    jTextField4.setText(group.getUniversity().getName());
 	}
+	else {
+	    group = null;
+	    chosenTeacher = null;
+	}
+	jTextField4.setText(uniRepository.findById(1L).get().getName());
     }
 
     /** This method is called from within the constructor to
@@ -70,7 +83,6 @@ public class GroupInput extends javax.swing.JFrame {
 
         jTextField1.setEnabled(false);
 
-        jTextField4.setText("jTextField4");
         jTextField4.setEnabled(false);
 
         jButton1.setText("Change");
@@ -166,27 +178,37 @@ public class GroupInput extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        GroupsView view = new GroupsView(startFrame, groupRepository);
+        GroupsView view = new GroupsView(startFrame, groupRepository, teacherRepository, studentRepository, uniRepository);
 	view.setVisible(true);	
 	this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if(group == null && chosenTeacher != null) {
-	    group = new Group(jTextField2.getText(), chosenTeacher, new University());
+        if(chosenTeacher != null) {
+	    if(group != null) {
+		group.setName(jTextField2.getText());
+		group.setTeacher(chosenTeacher);
+		
+	    }
+	    else {
+		group = new Group(jTextField2.getText(), chosenTeacher, uniRepository.findById(1L).get());
+	    }
+	    groupRepository.save(group);
+	    GroupsView view = new GroupsView(startFrame, groupRepository, teacherRepository, studentRepository, uniRepository);
+	    view.setVisible(true);	
+	    this.dispose();
 	}
-	
-	group.setName(jTextField2.getText());
-	groupRepository.save(group);
-	GroupsView view = new GroupsView(startFrame, groupRepository);
-	view.setVisible(true);	
-	this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        ChooseTeacher view = new ChooseTeacher(teacherRepository, this);
+	view.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public void setTeacher(Teacher teacher) {
+	this.chosenTeacher = teacher;
+	this.jTextField3.setText(teacher.getFirstName() + " " + teacher.getLastName());
+    }
     /**
      * @param args the command line arguments
      */
@@ -222,6 +244,10 @@ public class GroupInput extends javax.swing.JFrame {
         });
     }
     
+    private UniversityRepository uniRepository;
+    private StudentRepository studentRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
     private Teacher chosenTeacher;
     private Group group;
     private GroupRepository groupRepository;

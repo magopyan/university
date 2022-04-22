@@ -135,8 +135,14 @@ public class Teacher implements Serializable {
     public void setGroupSet(Set<Group> groupSet) {
         this.groupSet = groupSet;
     }
+    
+    public University getUniversity() {
+	return university;
+    }
 
-
+    public void setUniversity(University university) {
+	this.university = university;
+    }
     ////////
     //////////////////////////////// TOSTRING, EQUALS, HASHCODE
 

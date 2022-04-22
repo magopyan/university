@@ -12,6 +12,7 @@ import com.example.demo.gui.TeachersView;
 import com.example.demo.repositories.GroupRepository;
 import com.example.demo.repositories.StudentRepository;
 import com.example.demo.repositories.TeacherRepository;
+import com.example.demo.repositories.UniversityRepository;
 import java.awt.EventQueue;
 import java.util.Optional;
 import javax.swing.JFrame;
@@ -113,7 +114,7 @@ public class Start extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         startFrame.setVisible(false);
-	GroupsView view = new GroupsView(startFrame, groupRepository);
+	GroupsView view = new GroupsView(startFrame, groupRepository, teacherRepository, studentRepository, uniRepository);
 	view.setVisible(true);	
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -176,6 +177,8 @@ public class Start extends javax.swing.JFrame {
 //	SpringApplication.run(Start.class, args);
     }
 
+    @Autowired
+    private UniversityRepository uniRepository;
     @Autowired
     private GroupRepository groupRepository;
     @Autowired
