@@ -6,7 +6,10 @@
 package com.example.demo.repositories;
 
 import com.example.demo.entities.Teacher;
+import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,5 +18,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
-    public void deleteById(Long id);
+    @Modifying
+    @Transactional
+    @Query("delete from Teacher t where t.id = ?1")
+    void deleteByIdd(Long id);
 }

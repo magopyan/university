@@ -10,6 +10,7 @@ import com.example.demo.entities.Student;
 import com.example.demo.entities.University;
 import com.example.demo.repositories.GroupRepository;
 import com.example.demo.repositories.StudentRepository;
+import com.example.demo.repositories.UniversityRepository;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
@@ -23,16 +24,18 @@ public class StudentsView extends javax.swing.JFrame {
     /**
      * Creates new form StudentsView
      */
-    public StudentsView(JFrame startFrame, StudentRepository studentRepository) {
+    public StudentsView(JFrame startFrame, StudentRepository studentRepository, GroupRepository groupRepository, UniversityRepository uniRepository) {
 	initComponents();
 	this.studentRepository = studentRepository;
+	this.groupRepository = groupRepository;
+	this.uniRepository = uniRepository;
 	this.startFrame = startFrame;
 	
 	List<Student> studentsList = studentRepository.findAll();
 	DefaultTableModel model = (DefaultTableModel) jTable1.getModel(); 
 	for(Student student : studentsList) {
 	    model.addRow(new Object[]{student.getId(), student.getFirstName(), student.getLastName(), 
-		student.getGrade(), student.getGroup().getName(), student.getUniversity()});
+		student.getGrade(), student.getGroup().getName(), student.getUniversity().getName()});
 	}
 	jTable1.setModel(model);
     }
@@ -53,7 +56,6 @@ public class StudentsView extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -120,13 +122,6 @@ public class StudentsView extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        jButton5.setText("jButton5");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,9 +139,8 @@ public class StudentsView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3)
                     .addComponent(jButton2)
-                    .addComponent(jButton1)
-                    .addComponent(jButton5))
-                .addGap(128, 128, 128))
+                    .addComponent(jButton1))
+                .addGap(138, 138, 138))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,9 +156,7 @@ public class StudentsView extends javax.swing.JFrame {
                         .addGap(50, 50, 50)
                         .addComponent(jButton2)
                         .addGap(56, 56, 56)
-                        .addComponent(jButton3)
-                        .addGap(57, 57, 57)
-                        .addComponent(jButton5))
+                        .addComponent(jButton3))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -175,29 +167,42 @@ public class StudentsView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        StudentInput view = new StudentInput(startFrame, groupRepository, studentRepository, uniRepository, null);
+	view.setVisible(true);
+	this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        if(jTable1.getSelectionModel().isSelectionEmpty() == false) {
+	    Long id = (Long) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0);
+	    Student selectedStudent = studentRepository.findById(id).get();
+	    StudentInput view = new StudentInput(startFrame, groupRepository, studentRepository, uniRepository, selectedStudent);
+	    view.setVisible(true);
+	    this.dispose();
+	}
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        if(jTable1.getSelectionModel().isSelectionEmpty() == false) {
+	    Long id = (Long) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 0);
+	    studentRepository.deleteByIdd(id);
+	    
+	    DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+	    dtm.setRowCount(0);
+	    
+	    List<Student> studentsList = studentRepository.findAll();
+	    for(Student student : studentsList) {
+		dtm.addRow(new Object[]{student.getId(), student.getFirstName(), student.getLastName(), 
+		student.getGrade(), student.getGroup().getName(), student.getUniversity().getName()});
+	    }
+	    jTable1.setModel(dtm);
+	}
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        this.setVisible(false);
-	startFrame.setVisible(true);
+        startFrame.setVisible(true);
+	this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        if(jTable1.getSelectionModel().isSelectionEmpty() == false)
-	{
-	    University uni = (University) jTable1.getModel().getValueAt(jTable1.getSelectedRow(), 5);
-	    System.out.println(uni.getTeacherSet());
-	}
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -236,13 +241,14 @@ public class StudentsView extends javax.swing.JFrame {
 
     
     private StudentRepository studentRepository;
+    private UniversityRepository uniRepository;
+    private GroupRepository groupRepository;
     private JFrame startFrame;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

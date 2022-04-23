@@ -206,9 +206,11 @@ public class GroupsView extends javax.swing.JFrame {
 	    dtm.setRowCount(0);
 	    
 	    List<Group> groupsList = groupRepository.findAll();
-	    for(Group group : groupsList) {
-		 dtm.addRow(new Object[]{group.getId(), group.getName(), 
+	    if(groupsList.size() > 0) {
+		for(Group group : groupsList) {
+		dtm.addRow(new Object[]{group.getId(), group.getName(), 
 		(group.getTeacher().getFirstName() + " " + group.getTeacher().getLastName()), group.getUniversity().getName(), group.getStudentSet().size()});
+		}
 	    }
 	    jTable1.setModel(dtm);
 	 }

@@ -120,13 +120,13 @@ public class Start extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 	startFrame.setVisible(false);
-	StudentsView view = new StudentsView(startFrame, studentRepository);
+	StudentsView view = new StudentsView(startFrame, studentRepository, groupRepository, uniRepository);
 	view.setVisible(true);	
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 	startFrame.setVisible(false);
-	TeachersView view = new TeachersView(startFrame, teacherRepository);
+	TeachersView view = new TeachersView(startFrame, groupRepository, teacherRepository, studentRepository, uniRepository);
 	view.setVisible(true);	
     }//GEN-LAST:event_jButton3ActionPerformed
 

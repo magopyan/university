@@ -5,6 +5,7 @@
  */
 package com.example.demo;
 
+import com.example.demo.entities.University;
 import com.example.demo.repositories.GroupRepository;
 import com.example.demo.repositories.TeacherRepository;
 import com.example.demo.repositories.UniversityRepository;
@@ -87,8 +88,8 @@ public class UniConfig implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-//		University university = new University("TU-Varna");
-//		universityRepository.save(university);
+		University university = new University("TU-Varna");
+		universityRepository.save(university);
 //
 //		Teacher teacher1 = new Teacher("Ivelin", "Dimitrov", university);
 //		Teacher teacher2 = new Teacher("Milena", "Vasileva", university);

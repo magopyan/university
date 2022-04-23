@@ -188,7 +188,6 @@ public class GroupInput extends javax.swing.JFrame {
 	    if(group != null) {
 		group.setName(jTextField2.getText());
 		group.setTeacher(chosenTeacher);
-		
 	    }
 	    else {
 		group = new Group(jTextField2.getText(), chosenTeacher, uniRepository.findById(1L).get());
